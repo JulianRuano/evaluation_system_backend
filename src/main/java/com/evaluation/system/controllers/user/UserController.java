@@ -1,4 +1,4 @@
-package com.evaluation.system.controllers;
+package com.evaluation.system.controllers.user;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,19 +11,18 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.evaluation.system.controllers.auth.AuthResponse;
 import com.evaluation.system.models.Role;
 import com.evaluation.system.models.User;
 import com.evaluation.system.models.UserRole;
-import com.evaluation.system.models.jwt.AuthResponse;
-import com.evaluation.system.services.IUserService;
+import com.evaluation.system.services.user.IUserService;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
@@ -33,20 +32,30 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/")
-    public ResponseEntity<AuthResponse>  saveUser(@RequestBody User user) throws Exception {
+    public ResponseEntity<AuthResponse>  saveUser(UserRequest userRequest) throws Exception {
         Set<UserRole> roles = new HashSet<>();
 
+        User user = User.builder()
+                .username(userRequest.getUsername())
+                .password(passwordEncoder.encode(userRequest.getPassword()))
+                .name(userRequest.getName())
+                .email(userRequest.getEmail())
+                .enabled(userRequest.isEnabled())
+                .profile(userRequest.getProfile())
+
+                .build();
+
         Role rol = new Role();
-        rol.setRolId(45L);
-        rol.setRolName("NORMAL");
+        rol.setRolId(userRequest.roles.iterator().next().getRole().getRolId());
+        rol.setRolName(userRequest.roles.iterator().next().getRole().getRolName());
 
         UserRole userRole = new UserRole();
         userRole.setUser(user);
         userRole.setRole(rol);
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        roles.add(userRole);
+  
 
-        roles.add(userRole);  
         return ResponseEntity.ok(userService.saveUser(user, roles));
     }
 

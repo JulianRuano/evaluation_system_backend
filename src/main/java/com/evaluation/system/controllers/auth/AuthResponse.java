@@ -1,4 +1,4 @@
-package com.evaluation.system.models.jwt;
+package com.evaluation.system.controllers.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

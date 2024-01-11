@@ -1,4 +1,6 @@
-package com.evaluation.system.services.impl;
+package com.evaluation.system.services.user;
+
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,10 +19,10 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+        Optional<User>  userOptinal = userRepository.findByUsername(username);
+        User user = userOptinal.orElse(null);    
         if(user==null) throw new UsernameNotFoundException("User not found");
         return user;
-
     }
 
      

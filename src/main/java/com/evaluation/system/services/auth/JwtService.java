@@ -1,4 +1,4 @@
-package com.evaluation.system.config;
+package com.evaluation.system.services.auth;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -20,7 +20,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
 @Service
-public class JwtUtils {
+public class JwtService {
 
     @Value("${jwt.secret}")
     private String SECRET_KEY;
@@ -34,8 +34,8 @@ public class JwtUtils {
             .builder()
             .claims(extraClaims)
             .claim("userId", user.getId())
-            .claim(("name"), user.getName())
-            .claim("userName", user.getUsername())
+            .claim(("username"), user.getUsername())
+            .claim("email", user.getEmail())
             .subject(user.getUsername())
             .issuedAt(new Date(System.currentTimeMillis()))
             .expiration(new Date(System.currentTimeMillis()+1000*60*24))
