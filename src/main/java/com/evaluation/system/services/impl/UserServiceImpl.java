@@ -7,8 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.evaluation.system.repository.IUserRepository;
 import com.evaluation.system.services.IUserService;
+import com.evaluation.system.config.JwtUtils;
 import com.evaluation.system.models.User;
 import com.evaluation.system.models.UserRole;
+import com.evaluation.system.models.jwt.AuthResponse;
+import com.evaluation.system.models.jwt.LoginRequest;
 import com.evaluation.system.repository.IRoleRepository;
 
 @Service
@@ -20,8 +23,11 @@ public class UserServiceImpl implements IUserService {
 	@Autowired
 	private IRoleRepository roleRepository;
 
+	@Autowired
+	private  JwtUtils jwtUtils;
+
 	@Override
-	public User saveUser(User user, Set<UserRole> userRoles) throws Exception {
+	public AuthResponse saveUser(User user, Set<UserRole> userRoles) throws Exception {
 
 		User userLocal = userRepository.findByUsername(user.getUsername());
 		
@@ -36,7 +42,9 @@ public class UserServiceImpl implements IUserService {
 			user.getUserRoles().addAll(userRoles);
 			userLocal = userRepository.save(user);
 		}
-		return userLocal;
+		return AuthResponse.builder()
+				.token(jwtUtils.getToken(userLocal))
+				.build();
 
 	}
 
@@ -48,6 +56,14 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public void deleteUser(Long id) {
 		userRepository.deleteById(id);	
+	}
+
+	@Override
+	public AuthResponse login(LoginRequest loginRequest) {
+		User user = userRepository.findByUsername(loginRequest.getUsername());
+		return AuthResponse.builder()
+				.token(jwtUtils.getToken(user))
+				.build();
 	}
 	
 	

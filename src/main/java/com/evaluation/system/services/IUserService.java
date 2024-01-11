@@ -4,11 +4,15 @@ import java.util.Set;
 
 import com.evaluation.system.models.User;
 import com.evaluation.system.models.UserRole;
+import com.evaluation.system.models.jwt.AuthResponse;
+import com.evaluation.system.models.jwt.LoginRequest;
 
 public interface IUserService {
-	public User saveUser(User user,Set<UserRole> userRole) throws Exception;
+	public AuthResponse saveUser(User user,Set<UserRole> userRole) throws Exception;
 
 	public User getUser(String username);
 
 	public void deleteUser(Long id);
+
+	public AuthResponse login(LoginRequest loginRequest);
 }

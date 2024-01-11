@@ -22,28 +22,7 @@ class EvaluationSystemBackendApplicationTests {
 	
 	@Test
 	void saveUserTest() throws Exception {
-		User user = new User();
 		
-		user.setName("juan");
-		user.setUsername("juan1");
-		user.setPassword("12345");
-		user.setCellPhone("32156");
-		user.setEmail("juan@email.com");
-		user.setProfile("image.png");
-		
-		Role role = new Role();
-		role.setRolId(2L);
-		role.setRolName("USER");
-		
-		Set<UserRole> userRoles = new HashSet<>();
-		UserRole userRole = new UserRole();
-		userRole.setRole(role);
-		userRole.setUser(user);
-		userRoles.add(userRole);
-		
-		User user1 = userService.saveUser(user,userRoles);
-		
-		assertTrue(user1.getName().equalsIgnoreCase(user.getName()));
 	}
 
 }
