@@ -29,7 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
     private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
-    private JwtService jwtUtil;
+    private JwtService jwtService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -44,13 +44,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
             return;
         }
 
-        username=jwtUtil.getUsernameFromToken(token);
+        username=jwtService.getUsernameFromToken(token);
 
         if (username!=null && SecurityContextHolder.getContext().getAuthentication()==null)
         {
             UserDetails userDetails=userDetailsService.loadUserByUsername(username);
 
-            if (jwtUtil.isTokenValid(token, userDetails))
+            if (jwtService.isTokenValid(token, userDetails))
             {
                 UsernamePasswordAuthenticationToken authToken= new UsernamePasswordAuthenticationToken(
                     userDetails,

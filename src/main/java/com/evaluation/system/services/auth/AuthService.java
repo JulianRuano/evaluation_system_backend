@@ -1,6 +1,7 @@
 package com.evaluation.system.services.auth;
 
 import org.springframework.stereotype.Service;
+import org.springframework.boot.actuate.web.exchanges.HttpExchange.Principal;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,7 +39,9 @@ public class AuthService {
         //verificar si el usuario existe y request no es nulo
         @NotNull User userExists = userRepository.findByUsername(request.getUsername()).orElse(null);
         if (userExists != null) {
-            throw new RuntimeException("User already exists");
+            AuthResponse.builder()
+            .token("Error: Usuario ya existe")
+            .build();
         }     
         User user = User.builder()
         .username(request.getUsername())
@@ -57,4 +60,15 @@ public class AuthService {
             .build();
         
     }
+
+    //obtener usuaruio del token
+    public User getUser(String authorizationHeader) {
+        String token = authorizationHeader.substring(7);  
+        String username = jwtService.getUsernameFromToken(token);
+        
+        return userRepository.findByUsername(username).orElse(null);      
+    }
+ 
+
+
 }
