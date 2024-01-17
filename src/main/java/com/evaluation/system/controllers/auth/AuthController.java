@@ -1,6 +1,6 @@
 package com.evaluation.system.controllers.auth;
 
-import org.springframework.boot.actuate.web.exchanges.HttpExchange.Principal;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,12 +9,13 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.evaluation.system.exceptions.UserFoundException;
 import com.evaluation.system.models.User;
 import com.evaluation.system.services.auth.AuthService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -33,16 +34,20 @@ public class AuthController {
     }
 
     @PostMapping(value = "register")
-    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request)
+    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) throws UserFoundException
     {
-        return ResponseEntity.ok(authService.register(request));
+        try {
+            return ResponseEntity.ok(authService.register(request));
+        } catch (UserFoundException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new AuthResponse("Error: Usuario ya existe"));
+        }  
     }
 
     //obtener usuaruio del token por header
-    @GetMapping(value = "getUser")
-    public User getUser(@RequestHeader("Authorization") String authorizationHeader)
+    @GetMapping(value = "getCurrentUser")
+    public User getCurrentUser(@RequestHeader("Authorization") String authorizationHeader)
     {
-       return authService.getUser(authorizationHeader);
+       return authService.getCurrentUser(authorizationHeader);
     }
 
 }

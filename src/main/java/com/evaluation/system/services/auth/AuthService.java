@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.evaluation.system.controllers.auth.AuthResponse;
 import com.evaluation.system.controllers.auth.LoginRequest;
 import com.evaluation.system.controllers.auth.RegisterRequest;
+import com.evaluation.system.exceptions.UserFoundException;
 import com.evaluation.system.models.User;
 import com.evaluation.system.repository.IUserRepository;
 
@@ -34,14 +35,12 @@ public class AuthService {
 
     }
 
-    public AuthResponse register(RegisterRequest request) {
+    public AuthResponse register(RegisterRequest request) throws UserFoundException {
 
         //verificar si el usuario existe y request no es nulo
-        @NotNull User userExists = userRepository.findByUsername(request.getUsername()).orElse(null);
+         User userExists = userRepository.findByUsername(request.getUsername()).orElse(null);
         if (userExists != null) {
-            AuthResponse.builder()
-            .token("Error: Usuario ya existe")
-            .build();
+            throw new UserFoundException();
         }     
         User user = User.builder()
         .username(request.getUsername())
@@ -62,7 +61,7 @@ public class AuthService {
     }
 
     //obtener usuaruio del token
-    public User getUser(String authorizationHeader) {
+    public User getCurrentUser(String authorizationHeader) {
         String token = authorizationHeader.substring(7);  
         String username = jwtService.getUsernameFromToken(token);
         
