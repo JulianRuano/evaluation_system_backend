@@ -1,7 +1,6 @@
 package com.evaluation.system.services.auth;
 
 import org.springframework.stereotype.Service;
-import org.springframework.boot.actuate.web.exchanges.HttpExchange.Principal;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,7 +37,7 @@ public class AuthService {
     public AuthResponse register(RegisterRequest request) throws UserFoundException {
 
         //verificar si el usuario existe y request no es nulo
-         User userExists = userRepository.findByUsername(request.getUsername()).orElse(null);
+        User userExists = userRepository.findByUsername(request.getUsername()).orElse(null);
         if (userExists != null) {
             throw new UserFoundException();
         }     
@@ -52,7 +51,9 @@ public class AuthService {
         .profile(request.getProfile())
         .build();
 
-        userRepository.save(user);
+        if (user != null) {
+            userRepository.save(user);
+        }
 
         return AuthResponse.builder()
             .token(jwtService.getToken(user))

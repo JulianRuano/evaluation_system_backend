@@ -8,7 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.evaluation.system.repository.IUserRepository;
 import com.evaluation.system.services.auth.JwtService;
+
+import lombok.NonNull;
+
 import com.evaluation.system.controllers.auth.AuthResponse;
+import com.evaluation.system.models.Role;
 import com.evaluation.system.models.User;
 import com.evaluation.system.models.UserRole;
 import com.evaluation.system.repository.IRoleRepository;
@@ -28,7 +32,7 @@ public class UserServiceImpl implements IUserService {
 
 
 	@Override
-	public AuthResponse saveUser(User user, Set<UserRole> userRoles) throws Exception {
+	public AuthResponse saveUser(User user,Set<UserRole> userRoles) throws Exception {
 
 		Optional<User> userLocal = userRepository.findByUsername(user.getUsername());	
 		if(userLocal != null) {
@@ -37,8 +41,9 @@ public class UserServiceImpl implements IUserService {
 		}
 		else {
 			for(UserRole userRole:userRoles) {
-				if (userRole.getRole() != null) { 
-					roleRepository.save(userRole.getRole());
+				Role role = userRole.getRole();
+				if (role != null) { 
+					roleRepository.save(role);
 				}				
 			}
 			user.getUserRoles().addAll(userRoles);
@@ -57,7 +62,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public void deleteUser(Long id) {
+	public void deleteUser(@NonNull Long id) {
 		userRepository.deleteById(id);	
 	}
 
