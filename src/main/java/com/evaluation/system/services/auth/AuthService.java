@@ -12,7 +12,6 @@ import com.evaluation.system.exceptions.UserFoundException;
 import com.evaluation.system.models.User;
 import com.evaluation.system.repository.IUserRepository;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 
 @Service

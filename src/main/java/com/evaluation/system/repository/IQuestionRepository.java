@@ -6,6 +6,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface IQuestionRepository extends JpaRepository<Question, Long>{
     Question findByQuestionId(int questionId);
-
-    Question findByQuestionName(String questionName);   
 }

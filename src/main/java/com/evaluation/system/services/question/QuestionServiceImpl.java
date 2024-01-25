@@ -36,13 +36,38 @@ public class QuestionServiceImpl implements IQuestionService{
     }
 
     @Override
-    public boolean updateQuestion(@NonNull Question question) {
+    public boolean updateQuestion(long questionId,@NonNull Question question) {
         try {
-            questionRepository.save(question);
+            Question questionLocal = questionRepository.findById(questionId).get();
+            if (questionLocal == null) {
+                throw new RuntimeException("Question not found");        
+            }
+
+            questionLocal.setQuestion(question.getQuestion());
+            questionLocal.setAnswerA(question.getAnswerA());
+            questionLocal.setAnswerB(question.getAnswerB());
+            questionLocal.setAnswerC(question.getAnswerC());
+            questionLocal.setAnswerD(question.getAnswerD());
+            questionLocal.setCorrectAnswer(question.getCorrectAnswer());
+            questionLocal.setLevel(question.getLevel());
+            questionLocal.setStatus(question.getStatus());
+
+            questionRepository.save(questionLocal);
             return true;
         } catch (Exception e) {
             throw new RuntimeException("Failed to update question", e);
         }
+        
+    }
+
+    @Override
+    public Question getQuestion(long questionId) {
+        try {
+            return questionRepository.findById(questionId).get();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to get question", e);
+        }
+        
     }
 
     

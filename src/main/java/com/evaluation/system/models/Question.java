@@ -30,6 +30,6 @@ public class Question {
     private String answerD;
     private String level;
     private String category;
-    private boolean status;
+    private Boolean status;
     private String correctAnswer;  
 }
