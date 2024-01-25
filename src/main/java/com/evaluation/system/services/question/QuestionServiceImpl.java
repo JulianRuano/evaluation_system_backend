@@ -1,6 +1,8 @@
 package com.evaluation.system.services.question;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.evaluation.system.models.Question;
@@ -68,6 +70,15 @@ public class QuestionServiceImpl implements IQuestionService{
             throw new RuntimeException("Failed to get question", e);
         }
         
+    }
+
+    @Override
+    public Page<Question> findAll(@NonNull Pageable pageable) {
+        try {
+            return questionRepository.findAll(pageable);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to get questions", e);
+        }
     }
 
     
