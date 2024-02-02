@@ -1,21 +1,22 @@
 package com.evaluation.system.services.category;
 
-import com.evaluation.system.controllers.category.CategoryResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import com.evaluation.system.controllers.category.CategoryRequest;
+
+import com.evaluation.system.dto.category.CategoryRequestDto;
+import com.evaluation.system.dto.category.CategoryResponseDto;
 
 public interface ICategoryService {
 
-    public CategoryResponse getCategory(long categoryId);
+    public CategoryResponseDto getCategory(long categoryId);
 
     public boolean deleteCategory(long categoryId);
 
-    public CategoryResponse saveCategory(CategoryRequest category);
+    public CategoryResponseDto saveCategory(CategoryRequestDto category);
 
-    public boolean updateCategory(long categoryId, CategoryRequest category);
+    public boolean updateCategory(long categoryId, CategoryRequestDto category);
 
-    public Page<CategoryResponse> findAll(Pageable pageable);
+    public Page<CategoryResponseDto> findAll(Pageable pageable);
 
 }
 

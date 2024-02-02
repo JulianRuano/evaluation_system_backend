@@ -1,4 +1,4 @@
-package com.evaluation.system.controllers.category;
+package com.evaluation.system.dto.category;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryRequest {
+public class CategoryRequestDto {
     String name;
     String description;
 }

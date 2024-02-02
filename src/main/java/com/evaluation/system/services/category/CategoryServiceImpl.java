@@ -5,8 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.evaluation.system.controllers.category.CategoryRequest;
-import com.evaluation.system.controllers.category.CategoryResponse;
+import com.evaluation.system.dto.category.CategoryRequestDto;
+import com.evaluation.system.dto.category.CategoryResponseDto;
 import com.evaluation.system.models.Category;
 import com.evaluation.system.repository.ICategoryRepository;
 
@@ -17,13 +17,13 @@ public class CategoryServiceImpl implements ICategoryService{
     private  ICategoryRepository categoryRepository;
 
     @Override
-    public CategoryResponse getCategory(long categoryId) {
+    public CategoryResponseDto getCategory(long categoryId) {
         try {
             Category category = categoryRepository.findById(categoryId).get();
             if (category == null) {
                 throw new RuntimeException("Category not found");        
             }
-            CategoryResponse categoryResponse = new CategoryResponse();
+            CategoryResponseDto categoryResponse = new CategoryResponseDto();
             category.setCategoryName(categoryResponse.getName());
             category.setCategoryDescription(categoryResponse.getDescription());
     
@@ -48,7 +48,7 @@ public class CategoryServiceImpl implements ICategoryService{
     }
 
     @Override
-    public CategoryResponse saveCategory(CategoryRequest category) {
+    public CategoryResponseDto saveCategory(CategoryRequestDto category) {
         try {
             Category newCategory = new Category();
             newCategory.setCategoryName(category.getName());
@@ -56,7 +56,7 @@ public class CategoryServiceImpl implements ICategoryService{
             // save category
             categoryRepository.save(newCategory);
             // return response
-            CategoryResponse categoryResponse = new CategoryResponse();
+            CategoryResponseDto categoryResponse = new CategoryResponseDto();
             categoryResponse.setName(newCategory.getCategoryName());
             categoryResponse.setDescription(newCategory.getCategoryDescription());
             return categoryResponse;
@@ -66,7 +66,7 @@ public class CategoryServiceImpl implements ICategoryService{
     }
 
     @Override
-    public boolean updateCategory(long categoryId, CategoryRequest category) {
+    public boolean updateCategory(long categoryId, CategoryRequestDto category) {
         try {
             Category updatedCategory = categoryRepository.findById(categoryId).get();
             if (updatedCategory == null) {
@@ -82,7 +82,7 @@ public class CategoryServiceImpl implements ICategoryService{
     }
 
     @Override
-    public Page<CategoryResponse> findAll(Pageable pageable) {
+    public Page<CategoryResponseDto> findAll(Pageable pageable) {
         try {
             if (pageable == null) {
                 throw new IllegalArgumentException("Pageable cannot be null");
@@ -90,7 +90,7 @@ public class CategoryServiceImpl implements ICategoryService{
             
             Page<Category> categories = categoryRepository.findAll(pageable);
             return categories.map(category -> {
-                CategoryResponse categoryResponse = new CategoryResponse();
+                CategoryResponseDto categoryResponse = new CategoryResponseDto();
                 categoryResponse.setName(category.getCategoryName());
                 categoryResponse.setDescription(category.getCategoryDescription());
                 return categoryResponse;

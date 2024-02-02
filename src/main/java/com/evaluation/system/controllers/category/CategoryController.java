@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.evaluation.system.dto.category.CategoryRequestDto;
+import com.evaluation.system.dto.category.CategoryResponseDto;
 import com.evaluation.system.services.category.ICategoryService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,22 +31,22 @@ public class CategoryController {
     private ICategoryService categoryService;
 
     @GetMapping("/")
-    public Page<CategoryResponse> getCategories(Pageable pageable) {
+    public Page<CategoryResponseDto> getCategories(Pageable pageable) {
         return categoryService.findAll(pageable);
     }
 
     @GetMapping("/{categoryId}")
-    public CategoryResponse getCategory(long categoryId) {
+    public CategoryResponseDto getCategory(long categoryId) {
         return categoryService.getCategory(categoryId);
     }
 
     @PostMapping("/")
-    public CategoryResponse saveCategory(@RequestBody CategoryRequest category) {
+    public CategoryResponseDto saveCategory(@RequestBody CategoryRequestDto category) {
         return categoryService.saveCategory(category);
     }
 
     @PutMapping("/{categoryId}")
-    public boolean updateCategory(@PathVariable("categoryId") long categoryId, @RequestBody CategoryRequest category) {
+    public boolean updateCategory(@PathVariable("categoryId") long categoryId, @RequestBody CategoryRequestDto category) {
         return categoryService.updateCategory(categoryId, category);
     }
 
