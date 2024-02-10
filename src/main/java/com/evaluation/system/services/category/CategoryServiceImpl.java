@@ -91,6 +91,7 @@ public class CategoryServiceImpl implements ICategoryService{
             Page<Category> categories = categoryRepository.findAll(pageable);
             return categories.map(category -> {
                 CategoryResponseDto categoryResponse = new CategoryResponseDto();
+                categoryResponse.setId(category.getCategoryId());
                 categoryResponse.setName(category.getCategoryName());
                 categoryResponse.setDescription(category.getCategoryDescription());
                 return categoryResponse;

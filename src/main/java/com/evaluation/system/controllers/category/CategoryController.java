@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.evaluation.system.dto.category.CategoryRequestDto;
 import com.evaluation.system.dto.category.CategoryResponseDto;
 import com.evaluation.system.services.category.ICategoryService;
-
+import org.springframework.web.bind.annotation.RequestBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
 
 
 
@@ -35,9 +35,9 @@ public class CategoryController {
         return categoryService.findAll(pageable);
     }
 
-    @GetMapping("/{categoryId}")
-    public CategoryResponseDto getCategory(long categoryId) {
-        return categoryService.getCategory(categoryId);
+    @GetMapping("/{id}")
+    public CategoryResponseDto getCategory(@PathVariable("id") long id) {
+        return categoryService.getCategory(id);
     }
 
     @PostMapping("/")
@@ -45,13 +45,13 @@ public class CategoryController {
         return categoryService.saveCategory(category);
     }
 
-    @PutMapping("/{categoryId}")
-    public boolean updateCategory(@PathVariable("categoryId") long categoryId, @RequestBody CategoryRequestDto category) {
-        return categoryService.updateCategory(categoryId, category);
+    @PutMapping("/{id}")
+    public boolean updateCategory(@PathVariable("id") long id, @RequestBody CategoryRequestDto category) {
+        return categoryService.updateCategory(id, category);
     }
 
-    @DeleteMapping("/{categoryId}")
-    public boolean deleteCategory(@PathVariable("categoryId") long categoryId) {
+    @DeleteMapping("/{id}")
+    public boolean deleteCategory(@PathVariable("id") long categoryId) {
         return categoryService.deleteCategory(categoryId);
     }
     
