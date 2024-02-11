@@ -17,15 +17,16 @@ public class CategoryServiceImpl implements ICategoryService{
     private  ICategoryRepository categoryRepository;
 
     @Override
-    public CategoryResponseDto getCategory(long categoryId) {
+    public CategoryResponseDto getCategoryById(long categoryId) {
         try {
             Category category = categoryRepository.findById(categoryId).get();
             if (category == null) {
                 throw new RuntimeException("Category not found");        
             }
             CategoryResponseDto categoryResponse = new CategoryResponseDto();
-            category.setCategoryName(categoryResponse.getName());
-            category.setCategoryDescription(categoryResponse.getDescription());
+            categoryResponse.setId(category.getCategoryId());
+            categoryResponse.setName(category.getCategoryName());
+            categoryResponse.setDescription(category.getCategoryDescription());     
     
             return categoryResponse;
         } catch (Exception e) {

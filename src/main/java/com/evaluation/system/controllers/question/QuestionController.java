@@ -37,7 +37,7 @@ public class QuestionController {
 
     @GetMapping("/{questionId}")
     public Question getQuestion(@PathVariable("questionId") long questionId) {
-        return questionService.getQuestion(questionId);
+        return questionService.getQuestionById(questionId);
     }
 
     @PostMapping("/")

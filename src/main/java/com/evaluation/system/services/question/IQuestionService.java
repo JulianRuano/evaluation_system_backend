@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface IQuestionService {
 
-    public Question getQuestion(long questionId);
+    public Question getQuestionById(long questionId);
 
     public boolean deleteQuestion(long questionId);
 

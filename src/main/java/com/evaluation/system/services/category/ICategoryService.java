@@ -8,7 +8,7 @@ import com.evaluation.system.dto.category.CategoryResponseDto;
 
 public interface ICategoryService {
 
-    public CategoryResponseDto getCategory(long categoryId);
+    public CategoryResponseDto getCategoryById(long categoryId);
 
     public boolean deleteCategory(long categoryId);
 

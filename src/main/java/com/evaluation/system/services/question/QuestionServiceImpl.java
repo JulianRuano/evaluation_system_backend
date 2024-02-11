@@ -63,7 +63,7 @@ public class QuestionServiceImpl implements IQuestionService{
     }
 
     @Override
-    public Question getQuestion(long questionId) {
+    public Question getQuestionById(long questionId) {
         try {
             return questionRepository.findById(questionId).get();
         } catch (Exception e) {
