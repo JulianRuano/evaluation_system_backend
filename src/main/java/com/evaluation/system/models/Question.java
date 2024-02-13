@@ -1,5 +1,7 @@
 package com.evaluation.system.models;
 
+import com.evaluation.system.dto.question.QuestionRequestDto;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -36,4 +38,16 @@ public class Question {
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Category category;
+
+    public void setAll(QuestionRequestDto questionRequestDto) {
+        this.question = questionRequestDto.getQuestion();
+        this.answerA = questionRequestDto.getAnswerA();
+        this.answerB = questionRequestDto.getAnswerB();
+        this.answerC = questionRequestDto.getAnswerC();
+        this.answerD = questionRequestDto.getAnswerD();
+        this.level = questionRequestDto.getLevel();
+        this.status = questionRequestDto.getStatus();
+        this.correctAnswer = questionRequestDto.getCorrectAnswer();
+        this.category = questionRequestDto.getCategory();
+    }
 }

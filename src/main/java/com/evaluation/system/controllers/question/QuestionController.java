@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+
+import com.evaluation.system.dto.question.QuestionRequestDto;
+import com.evaluation.system.dto.question.QuestionResponseDto;
 import com.evaluation.system.models.Question;
 import com.evaluation.system.services.question.IQuestionService;
 
@@ -31,28 +35,45 @@ public class QuestionController {
     private final IQuestionService questionService;
 
     @GetMapping("/")
-    public Page<Question> getQuestions(@PageableDefault(sort = { "questionId" }, direction = Sort.Direction.ASC) Pageable pageable) {
+    public Page<QuestionResponseDto> getQuestions(@PageableDefault(sort = { "questionId" }, direction = Sort.Direction.ASC) Pageable pageable) {
         return questionService.findAll(pageable);
     }
 
     @GetMapping("/{questionId}")
-    public Question getQuestion(@PathVariable("questionId") long questionId) {
-        return questionService.getQuestionById(questionId);
+    public ResponseEntity<QuestionResponseDto> getQuestion(@PathVariable("questionId") long questionId) {
+        QuestionResponseDto questionResponseDto = questionService.getQuestionById(questionId);
+        if (questionResponseDto == null) {
+            return ResponseEntity.notFound().build();
+        } 
+        return ResponseEntity.ok(questionResponseDto);
+        
     }
 
     @PostMapping("/")
-    public Question saveQuestion(@RequestBody Question question) {
-        return questionService.saveQuestion(question);
+    public ResponseEntity<QuestionResponseDto> saveQuestion(@RequestBody Question question) {
+        try {
+            return ResponseEntity.ok(questionService.saveQuestion(question));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PutMapping("/{questionId}")
-    public boolean updateQuestion(@PathVariable("questionId") long questionId, @RequestBody Question question) {
-        return questionService.updateQuestion(questionId, question);
+    public ResponseEntity<?> updateQuestion(@PathVariable("questionId") long questionId, @RequestBody QuestionRequestDto question) {
+        if (questionService.updateQuestion(questionId, question)) {    
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }    
     }
     
     @DeleteMapping("/{questionId}")
-    public boolean deleteQuestion(@PathVariable("questionId") long questionId) {
-        return questionService.deleteQuestion(questionId);
+    public ResponseEntity<?> deleteQuestion(@PathVariable("questionId") long questionId) {
+        if (questionService.deleteQuestion(questionId)) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }      
     }
     
     

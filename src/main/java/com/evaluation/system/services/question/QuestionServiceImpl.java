@@ -5,9 +5,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.evaluation.system.dto.question.QuestionRequestDto;
+import com.evaluation.system.dto.question.QuestionResponseDto;
 import com.evaluation.system.models.Question;
 import com.evaluation.system.repository.IQuestionRepository;
-
 import lombok.NonNull;
 
 
@@ -23,49 +24,64 @@ public class QuestionServiceImpl implements IQuestionService{
             questionRepository.deleteById(questionId);
             return true;
         } catch (Exception e) {
-            throw new RuntimeException("Failed to delete question", e);
+            return false;
         }
     }
 
     @Override
-    public Question saveQuestion(@NonNull Question question) {
+    public QuestionResponseDto saveQuestion(@NonNull Question question) {
         try {
             questionRepository.save(question);
-            return question;
+            QuestionResponseDto questionResponse = new QuestionResponseDto();
+            questionResponse.setQuestionId(question.getQuestionId());
+            questionResponse.setQuestion(question.getQuestion());
+            questionResponse.setAnswerA(question.getAnswerA());
+            questionResponse.setAnswerB(question.getAnswerB());
+            questionResponse.setAnswerC(question.getAnswerC());
+            questionResponse.setAnswerD(question.getAnswerD());
+            questionResponse.setCorrectAnswer(question.getCorrectAnswer());
+            questionResponse.setLevel(question.getLevel());
+            questionResponse.setStatus(question.getStatus());
+            return questionResponse;         
         } catch (Exception e) {
             throw new RuntimeException("Failed to save question", e);
         }
     }
 
     @Override
-    public boolean updateQuestion(long questionId,@NonNull Question question) {
+    public boolean updateQuestion(long questionId,@NonNull QuestionRequestDto question) {
         try {
             Question questionLocal = questionRepository.findById(questionId).get();
             if (questionLocal == null) {
                 throw new RuntimeException("Question not found");        
             }
-
-            questionLocal.setQuestion(question.getQuestion());
-            questionLocal.setAnswerA(question.getAnswerA());
-            questionLocal.setAnswerB(question.getAnswerB());
-            questionLocal.setAnswerC(question.getAnswerC());
-            questionLocal.setAnswerD(question.getAnswerD());
-            questionLocal.setCorrectAnswer(question.getCorrectAnswer());
-            questionLocal.setLevel(question.getLevel());
-            questionLocal.setStatus(question.getStatus());
-
+            questionLocal.setAll(question);
             questionRepository.save(questionLocal);
             return true;
         } catch (Exception e) {
-            throw new RuntimeException("Failed to update question", e);
+            return false;
         }
         
     }
 
     @Override
-    public Question getQuestionById(long questionId) {
+    public QuestionResponseDto getQuestionById(long questionId) {
         try {
-            return questionRepository.findById(questionId).get();
+            Question question = questionRepository.findById(questionId).get();
+            if (question == null) {
+                throw new RuntimeException("Question not found");
+            }
+            QuestionResponseDto questionResponse = new QuestionResponseDto();
+            questionResponse.setQuestionId(question.getQuestionId());
+            questionResponse.setQuestion(question.getQuestion());
+            questionResponse.setAnswerA(question.getAnswerA());
+            questionResponse.setAnswerB(question.getAnswerB());
+            questionResponse.setAnswerC(question.getAnswerC());
+            questionResponse.setAnswerD(question.getAnswerD());
+            questionResponse.setCorrectAnswer(question.getCorrectAnswer());
+            questionResponse.setLevel(question.getLevel());
+            questionResponse.setStatus(question.getStatus());
+            return questionResponse;         
         } catch (Exception e) {
             throw new RuntimeException("Failed to get question", e);
         }
@@ -73,9 +89,22 @@ public class QuestionServiceImpl implements IQuestionService{
     }
 
     @Override
-    public Page<Question> findAll(@NonNull Pageable pageable) {
+    public Page<QuestionResponseDto> findAll(@NonNull Pageable pageable) {
         try {
-            return questionRepository.findAll(pageable);
+            Page<Question> questionResponse = questionRepository.findAll(pageable);
+            return questionResponse.map(question -> {
+                QuestionResponseDto questionResponseDto = new QuestionResponseDto();
+                questionResponseDto.setQuestionId(question.getQuestionId());
+                questionResponseDto.setQuestion(question.getQuestion());
+                questionResponseDto.setAnswerA(question.getAnswerA());
+                questionResponseDto.setAnswerB(question.getAnswerB());
+                questionResponseDto.setAnswerC(question.getAnswerC());
+                questionResponseDto.setAnswerD(question.getAnswerD());
+                questionResponseDto.setCorrectAnswer(question.getCorrectAnswer());
+                questionResponseDto.setLevel(question.getLevel());
+                questionResponseDto.setStatus(question.getStatus());
+                return questionResponseDto;
+            });        
         } catch (Exception e) {
             throw new RuntimeException("Failed to get questions", e);
         }
