@@ -1,6 +1,7 @@
 package com.evaluation.system.models;
 
 import com.evaluation.system.dto.question.QuestionRequestDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -39,6 +40,7 @@ public class Question {
     @ManyToOne(fetch = FetchType.EAGER)
     private Category category;
 
+    @JsonIgnore
     public void setAll(QuestionRequestDto questionRequestDto) {
         this.question = questionRequestDto.getQuestion();
         this.answerA = questionRequestDto.getAnswerA();
