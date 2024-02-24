@@ -10,14 +10,14 @@ services:
     environment:
       - DB_USERNAME=root
       - DB_PASSWORD=123456789
-      - DB_URL=jdbc:mysql://db:3306/evaluation_system   # Cambio aquí
+      - DB_URL=jdbc:mysql://db:3306/evaluation_system
     depends_on:
       - db
   db:
     container_name: evaluation-system-db
     image: mariadb:10.4.32
     environment:
-      MARIADB_ROOT_PASSWORD: '123456789'
+      MARIADB_ROOT_PASSWORD: 123456789
       MARIADB_DATABASE: evaluation_system
     ports:
       - "3306:3306"
