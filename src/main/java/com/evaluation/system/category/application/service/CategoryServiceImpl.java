@@ -5,10 +5,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.evaluation.system.category.application.controllers.CategoryRequestDto;
-import com.evaluation.system.category.application.controllers.CategoryResponseDto;
 import com.evaluation.system.category.domain.models.Category;
-import com.evaluation.system.category.domain.repository.ICategoryRepository;
+import com.evaluation.system.category.infrastructure.api.dtos.CategoryRequestDto;
+import com.evaluation.system.category.infrastructure.api.dtos.CategoryResponseDto;
+import com.evaluation.system.category.infrastructure.repository.ICategoryRepository;
 
 @Service
 public class CategoryServiceImpl implements ICategoryService{

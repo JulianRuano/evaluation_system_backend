@@ -5,12 +5,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.evaluation.system.auth.application.controller.auth.AuthResponse;
-import com.evaluation.system.auth.application.controller.auth.LoginRequest;
-import com.evaluation.system.auth.application.controller.auth.RegisterRequest;
+import com.evaluation.system.auth.infrastructure.api.controller.auth.AuthResponse;
+import com.evaluation.system.auth.infrastructure.api.controller.auth.LoginRequest;
+import com.evaluation.system.auth.infrastructure.api.controller.auth.RegisterRequest;
 import com.evaluation.system.user.domain.models.user.User;
-import com.evaluation.system.user.domain.repository.IUserRepository;
 import com.evaluation.system.user.infrastructure.exceptions.UserFoundException;
+import com.evaluation.system.user.infrastructure.repository.IUserRepository;
 
 import lombok.RequiredArgsConstructor;
 

@@ -5,10 +5,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.evaluation.system.question.application.controllers.QuestionRequestDto;
-import com.evaluation.system.question.application.controllers.QuestionResponseDto;
-import com.evaluation.system.question.domain.models.Question;
-import com.evaluation.system.question.domain.repository.IQuestionRepository;
+import com.evaluation.system.question.application.dtos.QuestionRequestDto;
+import com.evaluation.system.question.application.input.IQuestionInputPort;
+import com.evaluation.system.question.application.dtos.QuestionDto;
+import com.evaluation.system.question.application.usecases.IQuestionService;
+import com.evaluation.system.question.infrastructure.adapter.entity.QuestionEntity;
 
 import lombok.NonNull;
 
@@ -17,12 +18,12 @@ import lombok.NonNull;
 public class QuestionServiceImpl implements IQuestionService{
 
     @Autowired
-    private  IQuestionRepository questionRepository;
+    private  IQuestionInputPort questionPersistencePort;
 
     @Override
     public boolean deleteQuestion(long questionId) {
         try {
-            questionRepository.deleteById(questionId);
+            questionPersistencePort.deleteById(questionId);
             return true;
         } catch (Exception e) {
             return false;
@@ -30,10 +31,10 @@ public class QuestionServiceImpl implements IQuestionService{
     }
 
     @Override
-    public QuestionResponseDto saveQuestion(@NonNull Question question) {
+    public QuestionDto saveQuestion(@NonNull QuestionEntity question) {
         try {
-            questionRepository.save(question);
-            QuestionResponseDto questionResponse = new QuestionResponseDto();
+            questionPersistencePort.save(question);
+            QuestionDto questionResponse = new QuestionDto();
             questionResponse.setQuestionId(question.getQuestionId());
             questionResponse.setQuestion(question.getQuestion());
             questionResponse.setAnswerA(question.getAnswerA());
@@ -52,12 +53,12 @@ public class QuestionServiceImpl implements IQuestionService{
     @Override
     public boolean updateQuestion(long questionId,@NonNull QuestionRequestDto question) {
         try {
-            Question questionLocal = questionRepository.findById(questionId).get();
+            QuestionEntity questionLocal = questionPersistencePort.findById(questionId).get();
             if (questionLocal == null) {
                 throw new RuntimeException("Question not found");        
             }
             questionLocal.setAll(question);
-            questionRepository.save(questionLocal);
+            questionPersistencePort.save(questionLocal);
             return true;
         } catch (Exception e) {
             return false;
@@ -66,13 +67,13 @@ public class QuestionServiceImpl implements IQuestionService{
     }
 
     @Override
-    public QuestionResponseDto getQuestionById(long questionId) {
+    public QuestionDto getQuestionById(long questionId) {
         try {
-            Question question = questionRepository.findById(questionId).get();
+            QuestionEntity question = questionPersistencePort.findById(questionId).get();
             if (question == null) {
                 throw new RuntimeException("Question not found");
             }
-            QuestionResponseDto questionResponse = new QuestionResponseDto();
+            QuestionDto questionResponse = new QuestionDto();
             questionResponse.setQuestionId(question.getQuestionId());
             questionResponse.setQuestion(question.getQuestion());
             questionResponse.setAnswerA(question.getAnswerA());
@@ -90,11 +91,11 @@ public class QuestionServiceImpl implements IQuestionService{
     }
 
     @Override
-    public Page<QuestionResponseDto> findAll(@NonNull Pageable pageable) {
+    public Page<QuestionDto> findAll(@NonNull Pageable pageable) {
         try {
-            Page<Question> questionResponse = questionRepository.findAll(pageable);
+            Page<QuestionDto> questionResponse = questionPersistencePort.findAll(pageable);
             return questionResponse.map(question -> {
-                QuestionResponseDto questionResponseDto = new QuestionResponseDto();
+                QuestionDto questionResponseDto = new QuestionDto();
                 questionResponseDto.setQuestionId(question.getQuestionId());
                 questionResponseDto.setQuestion(question.getQuestion());
                 questionResponseDto.setAnswerA(question.getAnswerA());

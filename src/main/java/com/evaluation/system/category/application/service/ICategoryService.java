@@ -3,8 +3,8 @@ package com.evaluation.system.category.application.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.evaluation.system.category.application.controllers.CategoryRequestDto;
-import com.evaluation.system.category.application.controllers.CategoryResponseDto;
+import com.evaluation.system.category.infrastructure.api.dtos.CategoryRequestDto;
+import com.evaluation.system.category.infrastructure.api.dtos.CategoryResponseDto;
 
 public interface ICategoryService {
 

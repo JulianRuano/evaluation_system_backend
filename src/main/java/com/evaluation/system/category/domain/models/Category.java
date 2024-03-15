@@ -3,7 +3,7 @@ package com.evaluation.system.category.domain.models;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.evaluation.system.question.domain.models.Question;
+import com.evaluation.system.question.infrastructure.adapter.entity.QuestionEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -35,6 +35,6 @@ public class Category {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "category")
     @Builder.Default
-    private Set<Question> questions = new HashSet<>();
+    private Set<QuestionEntity> questions = new HashSet<>();
     
 }

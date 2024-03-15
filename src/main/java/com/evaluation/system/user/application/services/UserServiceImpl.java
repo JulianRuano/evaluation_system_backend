@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 import com.evaluation.system.user.domain.models.role.Role;
 import com.evaluation.system.user.domain.models.role.UserRole;
 import com.evaluation.system.user.domain.models.user.User;
-import com.evaluation.system.user.domain.repository.IRoleRepository;
-import com.evaluation.system.user.domain.repository.IUserRepository;
+import com.evaluation.system.user.infrastructure.repository.IRoleRepository;
+import com.evaluation.system.user.infrastructure.repository.IUserRepository;
 
 import lombok.NonNull;
 
-import com.evaluation.system.auth.application.controller.auth.AuthResponse;
 import com.evaluation.system.auth.application.service.JwtService;
+import com.evaluation.system.auth.infrastructure.api.controller.auth.AuthResponse;
 
 
 @Service

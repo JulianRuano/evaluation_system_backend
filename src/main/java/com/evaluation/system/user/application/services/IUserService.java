@@ -2,7 +2,7 @@ package com.evaluation.system.user.application.services;
 
 import java.util.Set;
 
-import com.evaluation.system.auth.application.controller.auth.AuthResponse;
+import com.evaluation.system.auth.infrastructure.api.controller.auth.AuthResponse;
 import com.evaluation.system.user.domain.models.role.UserRole;
 import com.evaluation.system.user.domain.models.user.User;
 
