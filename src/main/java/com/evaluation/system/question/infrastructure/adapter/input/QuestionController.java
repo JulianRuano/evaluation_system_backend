@@ -1,39 +1,37 @@
-package com.evaluation.system.question.infrastructure.api.controllers;
+package com.evaluation.system.question.infrastructure.adapter.input;
 
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.evaluation.system.question.application.input.IQuestionCreateInputPort;
+import com.evaluation.system.question.domain.model.Question;
+import com.evaluation.system.question.infrastructure.adapter.input.data.request.QuestionReq;
+import com.evaluation.system.question.infrastructure.adapter.input.data.response.QuestionRes;
+import com.evaluation.system.question.infrastructure.adapter.input.mapper.IQuestionCreateMapper;
+
 import org.springframework.http.ResponseEntity;
-
-import com.evaluation.system.question.application.dtos.QuestionRequestDto;
-import com.evaluation.system.question.application.dtos.QuestionDto;
-import com.evaluation.system.question.application.usecases.IQuestionService;
-import com.evaluation.system.question.infrastructure.adapter.entity.QuestionEntity;
-
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-
-
+import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
 @RequestMapping("/question")
-@RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class QuestionController {
 
-    
-    private final IQuestionService questionService;
+    @Autowired
+    private  IQuestionCreateInputPort questionService;
 
+    @Autowired
+    private IQuestionCreateMapper questionMapper;
+
+
+    /* 
     @GetMapping("/")
     public Page<QuestionDto> getQuestions(@PageableDefault(sort = { "questionId" }, direction = Sort.Direction.ASC) Pageable pageable) {
         return questionService.findAll(pageable);
@@ -48,32 +46,39 @@ public class QuestionController {
         return ResponseEntity.ok(questionResponseDto);
         
     }
+    */
 
     @PostMapping("/")
-    public ResponseEntity<QuestionDto> saveQuestion(@RequestBody QuestionEntity question) {
+    public ResponseEntity<QuestionRes> saveQuestion(@RequestBody QuestionReq question) {
         try {
-            return ResponseEntity.ok(questionService.saveQuestion(question));
+            Question questionEntity = questionService.saveQuestion(questionMapper.toQuestion(question));
+            return ResponseEntity.ok(questionMapper.toQuestionRes(questionEntity));
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
     }
 
     @PutMapping("/{questionId}")
-    public ResponseEntity<?> updateQuestion(@PathVariable("questionId") long questionId, @RequestBody QuestionRequestDto question) {
-        if (questionService.updateQuestion(questionId, question)) {    
+    public ResponseEntity<?> updateQuestion(@PathVariable("questionId") long questionId, @RequestBody QuestionReq question) {
+        Question questionEntity = questionMapper.toQuestion(question);
+        try {
+            questionService.updateQuestion(questionId, questionEntity);
             return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }    
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+
+          
     }
     
     @DeleteMapping("/{questionId}")
     public ResponseEntity<?> deleteQuestion(@PathVariable("questionId") long questionId) {
-        if (questionService.deleteQuestion(questionId)) {
+        try {
+            questionService.deleteById(questionId);
             return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }      
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }   
     }
     
     

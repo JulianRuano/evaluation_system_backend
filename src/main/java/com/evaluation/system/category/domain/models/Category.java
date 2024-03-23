@@ -3,7 +3,7 @@ package com.evaluation.system.category.domain.models;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.evaluation.system.question.infrastructure.adapter.entity.QuestionEntity;
+import com.evaluation.system.question.infrastructure.adapter.output.entity.QuestionEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;

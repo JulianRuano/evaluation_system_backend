@@ -1,17 +1,19 @@
-package com.evaluation.system.question.application.dtos;
+package com.evaluation.system.question.infrastructure.adapter.input.data.request;
 
 import com.evaluation.system.category.domain.models.Category;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
-@Builder
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class QuestionDto {
+@Builder
+public class QuestionReq {
     private Long questionId;
     private String question;
     private String answerA;
@@ -21,5 +23,6 @@ public class QuestionDto {
     private String level; 
     private Boolean status;
     private String correctAnswer;  
+    
     private Category category;
 }
