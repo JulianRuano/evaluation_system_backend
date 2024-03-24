@@ -9,6 +9,8 @@ import com.evaluation.system.question.infrastructure.adapter.output.entity.Quest
 import com.evaluation.system.question.infrastructure.adapter.output.mapper.IQuestionDboMapper;
 import com.evaluation.system.question.infrastructure.adapter.output.repository.IQuestionRepository;
 
+import lombok.NonNull;
+
 
 @Component
 public class QuestionCreateJpaAdapter implements IQuestionCreateOutputPort {
@@ -37,11 +39,11 @@ public class QuestionCreateJpaAdapter implements IQuestionCreateOutputPort {
 
 
         @Override
-        public Question updateQuestion(Long id, Question question) {
+        public Question updateQuestion(@NonNull Long id, Question question) {
 
-            questionRepository.findByQuestionId(id);
-            if (questionRepository.findByQuestionId(id) == null) {throw new IllegalArgumentException("Question not found");}
-
+            questionRepository.findById(id);
+            if(questionRepository.findById(id).isEmpty ()) {throw new IllegalArgumentException("Question not found");}
+            
             QuestionEntity questionEntity = questionDboMapper.toQuestionEntity(question);
             if(questionEntity == null) {throw new IllegalArgumentException("QuestionEntity is null");}
             

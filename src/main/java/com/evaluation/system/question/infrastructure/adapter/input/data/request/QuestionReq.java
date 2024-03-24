@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class QuestionReq {
-    private Long questionId;
+    private Long id;
     private String question;
     private String answerA;
     private String answerB;

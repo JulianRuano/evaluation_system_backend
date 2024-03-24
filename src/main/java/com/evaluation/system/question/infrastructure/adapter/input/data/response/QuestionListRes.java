@@ -1,7 +1,5 @@
 package com.evaluation.system.question.infrastructure.adapter.input.data.response;
 
-import com.evaluation.system.category.domain.models.Category;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class QuestionListRes {
-    private Long questionId;
+    private Long id;
     private String question;
     private String answerA;
     private String answerB;
@@ -24,5 +22,5 @@ public class QuestionListRes {
     private Boolean status;
     private String correctAnswer;  
     
-    private Category category;
+
 }

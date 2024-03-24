@@ -5,12 +5,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.evaluation.system.question.application.input.IQuestionListInputPort;
+import com.evaluation.system.question.application.input.IQuestionSearchInputPort;
 import com.evaluation.system.question.application.output.IQuestionListOutputPort;
 import com.evaluation.system.question.domain.model.Question;
 
 @Service
-public class QuestionListService implements IQuestionListInputPort{
+public class QuestionListService implements IQuestionSearchInputPort{
 
     @Autowired
     private IQuestionListOutputPort outputPort;

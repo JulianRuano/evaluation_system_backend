@@ -1,4 +1,4 @@
-package com.evaluation.system.category.infrastructure.api.dtos;
+package com.evaluation.system.category.infrastructure.adapters.input.rest.data.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryResponseDto {
+public class CategoryRes {
     Long id;
     String name;
     String description;    

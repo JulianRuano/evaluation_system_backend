@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.evaluation.system.question.application.input.IQuestionCreateInputPort;
-import com.evaluation.system.question.application.input.IQuestionListInputPort;
+import com.evaluation.system.question.application.input.IQuestionHandlerInputPort;
+import com.evaluation.system.question.application.input.IQuestionSearchInputPort;
 import com.evaluation.system.question.domain.model.Question;
 import com.evaluation.system.question.infrastructure.adapter.input.data.request.QuestionReq;
 import com.evaluation.system.question.infrastructure.adapter.input.data.response.QuestionListRes;
@@ -33,10 +33,10 @@ import org.springframework.data.web.PageableDefault;
 public class QuestionController {
 
     @Autowired
-    private  IQuestionCreateInputPort questionService;
+    private  IQuestionHandlerInputPort questionService;
 
     @Autowired
-    private IQuestionListInputPort questionListService;
+    private IQuestionSearchInputPort questionListService;
 
     @Autowired
     private IQuestionCreateMapper questionMapper;
@@ -46,13 +46,13 @@ public class QuestionController {
 
      
     @GetMapping("/")
-    public Page<QuestionListRes> getQuestions(@PageableDefault(sort = { "questionId" }, direction = Sort.Direction.ASC) Pageable pageable) {
+    public Page<QuestionListRes> getQuestions(@PageableDefault(sort = { "id" }, direction = Sort.Direction.ASC) Pageable pageable) {
         Page<Question> questions = questionListService.findAll(pageable);
         return questionListMapper.map(questions);    
     }
 
-    @GetMapping("/{questionId}")
-    public ResponseEntity<QuestionListRes> getQuestion(@PathVariable("questionId") long questionId) {
+    @GetMapping("/{id}")
+    public ResponseEntity<QuestionListRes> getQuestion(@PathVariable("id") long questionId) {
         QuestionListRes questionResponseDto = questionListMapper.map(questionListService.getQuestionById(questionId));
         if (questionResponseDto == null) {
             return ResponseEntity.notFound().build();
@@ -72,8 +72,8 @@ public class QuestionController {
         }
     }
 
-    @PutMapping("/{questionId}")
-    public ResponseEntity<?> updateQuestion(@PathVariable("questionId") long questionId, @RequestBody QuestionReq question) {
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateQuestion(@PathVariable("id") long questionId, @RequestBody QuestionReq question) {
         Question questionEntity = questionMapper.toQuestion(question);
         try {
             questionService.updateQuestion(questionId, questionEntity);
@@ -85,8 +85,8 @@ public class QuestionController {
           
     }
     
-    @DeleteMapping("/{questionId}")
-    public ResponseEntity<?> deleteQuestion(@PathVariable("questionId") long questionId) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteQuestion(@PathVariable("id") long questionId) {
         try {
             questionService.deleteById(questionId);
             return ResponseEntity.ok().build();

@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.evaluation.system.question.domain.model.Question;
 
-public interface IQuestionListInputPort {
+public interface IQuestionSearchInputPort {
 
     public Page<Question> findAll(Pageable pageable);
 
