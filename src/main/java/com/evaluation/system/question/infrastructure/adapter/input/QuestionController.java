@@ -21,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,6 +31,7 @@ import org.springframework.data.web.PageableDefault;
 @RestController
 @RequestMapping("/question")
 @CrossOrigin(origins = "*")
+@PreAuthorize("hasRole('admin_client_role')")
 public class QuestionController {
 
     @Autowired

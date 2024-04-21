@@ -1,5 +1,7 @@
 package com.evaluation.system.question.infrastructure.adapter.input.data.response;
 
+import com.evaluation.system.category.infrastructure.adapters.output.jpaAdapter.entity.CategoryEntity;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,6 +23,8 @@ public class QuestionListRes {
     private String level; 
     private Boolean status;
     private String correctAnswer;  
+
+    private CategoryEntity category;
     
 
 }

@@ -1,6 +1,7 @@
 package com.evaluation.system.category.infrastructure.adapters.input.rest.mapper;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import com.evaluation.system.category.domain.models.Category;
 import com.evaluation.system.category.infrastructure.adapters.input.rest.data.request.CategoryReq;
@@ -12,5 +13,6 @@ public interface ICategoryHandlerRestMapper {
 
     CategoryRes toCategoryRes(Category category);
 
+    @Mapping(target = "questions", ignore = true)
     Category toCategory(CategoryReq categoryReq);
 }
