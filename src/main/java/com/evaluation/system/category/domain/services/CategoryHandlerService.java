@@ -1,6 +1,8 @@
 package com.evaluation.system.category.domain.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.evaluation.system.category.application.input.ICategoryHandlerInputPort;
@@ -26,6 +28,11 @@ public class CategoryHandlerService implements ICategoryHandlerInputPort {
     @Override
     public boolean updateCategory(long categoryId, Category category) {
         return categoryHandlerOutputPort.updateCategory(categoryId, category);
+    }
+
+    @Override
+    public Page<Category> getCategories(Pageable pageable) {
+        return categoryHandlerOutputPort.getCategories(pageable);
     }
     
 }

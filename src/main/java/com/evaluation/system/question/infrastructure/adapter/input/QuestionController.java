@@ -31,7 +31,7 @@ import org.springframework.data.web.PageableDefault;
 @RestController
 @RequestMapping("/question")
 @CrossOrigin(origins = "*")
-@PreAuthorize("hasRole('admin_client_role')")
+@PreAuthorize("hasRole('user_client') or hasRole('admin_client')")
 public class QuestionController {
 
     @Autowired

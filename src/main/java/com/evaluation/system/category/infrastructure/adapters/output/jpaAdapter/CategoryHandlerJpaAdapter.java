@@ -1,6 +1,8 @@
 package com.evaluation.system.category.infrastructure.adapters.output.jpaAdapter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import com.evaluation.system.category.application.output.ICategoryHandlerOutputPort;
@@ -53,6 +55,12 @@ public class CategoryHandlerJpaAdapter implements ICategoryHandlerOutputPort{
         }catch(Exception e){
             return false;
         }
+    }
+
+    @Override
+    public Page<Category> getCategories(Pageable pageable) {
+        Page<CategoryEntity> categoryEntities = categoryRepository.findAll(pageable);
+        return categoryEntities.map(categoryHandlerMapper::toCategory);   
     }
 
     
