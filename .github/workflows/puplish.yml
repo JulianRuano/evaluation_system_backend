@@ -22,5 +22,5 @@ jobs:
           context: .
           file: docker-compose.yml
           push: true
-          tags: ghcr.io/JulianRuano/evaluation_system_backend:latest
+          tags: ghcr.io/julianruano/evaluation_system_backend:latest
           
