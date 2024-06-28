@@ -21,7 +21,7 @@ jobs:
 
       - name: Build and push image
         run: |
-          docker-compose build
+          docker-compose build web
           docker tag ghcr.io/evaluation-system:latest ghcr.io/julianruano/evaluation-system:latest
           docker push ghcr.io/julianruano/evaluation-system:latest
 
