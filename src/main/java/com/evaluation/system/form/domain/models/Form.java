@@ -18,8 +18,8 @@ import lombok.Setter;
 public class Form {
 
     private Long id;
-    private String Title;
-    private String Description;
+    private String title;
+    private String description;
 
     private List<Question> questions;
     

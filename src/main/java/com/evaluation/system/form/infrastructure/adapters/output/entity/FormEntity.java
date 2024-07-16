@@ -2,8 +2,9 @@ package com.evaluation.system.form.infrastructure.adapters.output.entity;
 
 import java.util.List;
 
-import com.evaluation.system.question.domain.model.Question;
+import com.evaluation.system.question.infrastructure.adapter.output.entity.QuestionEntity;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,16 +20,17 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Entity
 public class FormEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String Title;
-    private String Description;
+    private String title;
+    private String description;
 
     @OneToMany
-    private List<Question> questions;
+    private List<QuestionEntity> questions;
     
 }
